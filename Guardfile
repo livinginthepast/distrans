@@ -6,4 +6,5 @@
 #
 guard 'shell' do
   watch(/(.*).c/) {|m| `make` }
+  watch(/Makefile/) {|m| `make` }
 end
