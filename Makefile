@@ -3,7 +3,7 @@ CFLAGS=-Wall
 
 all: server
 
-server: build_dir
+server: clean build_dir
 	$(CC) $(CFLAGS) distrans.c -o build/distrans
 	chmod 0744 build/distrans
 
