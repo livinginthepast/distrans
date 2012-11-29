@@ -1,10 +1,11 @@
 CC=cc
-CFLAGS=-c -Wall
+CFLAGS=-Wall
 
 all: server
 
 server: build_dir
-	$(CC) $(CFLAGS) server.c -o build/server
+	$(CC) $(CFLAGS) distrans.c -o build/distrans
+	chmod 0744 build/distrans
 
 build_dir:
 	mkdir -p build
