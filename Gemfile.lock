@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     coderay (1.0.8)
+    growl (1.0.3)
     guard (1.5.4)
       listen (>= 0.4.2)
       lumberjack (>= 1.0.2)
@@ -24,5 +25,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  growl
   guard-shell
   rb-fsevent (~> 0.9.1)
