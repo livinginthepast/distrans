@@ -71,7 +71,7 @@ void respond(int socket, int verbose) {
   /* Header + a blank line */
   (void)sprintf(write_buffer,"HTTP/1.1 200 OK\nServer: distrans/%f\nContent-Length: 26\nConnection: close\nContent-Type: image/gif\n\n", VERSION);
   (void)sprintf(write_buffer,"%s", GIF);
-  (void)write(socket, write_buffer, WRITE_BUFFER);
+  (void)write(socket, write_buffer, strlen(write_buffer));
 
   sleep(0.001);
   implode(socket);
