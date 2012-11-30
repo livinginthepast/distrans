@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -22,7 +21,7 @@ void forbidden(int socket) {
 }
 
 void error(char *msg) {
-  (void)printf("ERROR: %s", msg);
+  (void)fprintf(stderr, "ERROR: %s\n", msg);
   exit(1);
 }
 
