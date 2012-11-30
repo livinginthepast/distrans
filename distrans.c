@@ -26,11 +26,11 @@ void error(char *msg) {
   exit(1);
 }
 
-void respond(int socket) {
+void respond(int socket, int verbose) {
   long i, req;
   static char buffer[BUFFER+1];
   static char write_buffer[WRITE_BUFFER+1];
-  static const char *GIF = "GIF89a?,;";
+  static const char *GIF = "GIF89a\x01\x00\x01\x00\x00\xFF\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x00;";
 
   req = read(socket, buffer, BUFFER);
 
@@ -58,12 +58,16 @@ void respond(int socket) {
 			break;
 		}
 	}
-	
+
+  if (verbose)
+    puts(buffer);
+
 	/* verify we are asking for gif */
-	if( !strncmp(&buffer[0],"GET /_.px",9) || !strncmp(&buffer[0],"get /_.px",9 || !strncmp(&buffer[0],"GET /favicon.ico",16)) )
+	if( strncmp(buffer,"GET /_.px",9) != 0 && strncmp(buffer,"get /_.px",9) != 0)
 	  (void)forbidden(socket);
 
-  puts(buffer);
+	if (verbose)
+	  (void)printf("writing content for: %s\n", buffer);
 
   /* Header + a blank line */
   (void)sprintf(write_buffer,"HTTP/1.1 200 OK\nServer: distrans/%f\nContent-Length: 26\nConnection: close\nContent-Type: image/gif\n\n", VERSION);
@@ -121,7 +125,7 @@ int main(int argc, char *argv[]) {
     pid = fork();
     if(pid == 0) {
       (void)close(listenfd);
-      respond(socketfd);
+      respond(socketfd, verbose);
     } else if (pid > 0) {
       (void)close(socketfd);
     }
