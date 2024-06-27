@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -12,7 +13,7 @@
 
 void implode(int socket) {
   close(socket);
-  exit(1);
+  exit(0);
 }
 
 void forbidden(int socket) {
@@ -73,7 +74,10 @@ void respond(int socket, int verbose) {
   (void)sprintf(write_buffer,"%s", GIF);
   (void)write(socket, write_buffer, strlen(write_buffer));
 
-  sleep(0.001);
+  struct timespec ts;
+  ts.tv_sec = 1 / 1000;
+
+  nanosleep(&ts, &ts);
   implode(socket);
 }
 
@@ -122,7 +126,7 @@ int main(int argc, char *argv[]) {
     socketfd = accept(listenfd, (struct sockaddr*)&cli_addr, &length);
 
     pid = fork();
-    if(pid == 0) {
+    if (pid == 0) {
       (void)close(listenfd);
       respond(socketfd, verbose);
     } else if (pid > 0) {
